@@ -19,7 +19,7 @@ function Feed() {
 
   return (
     <div className='w-full flex flex-col space-y-5 mt-5 mb-10'>
-      {posts.map(({ id, caption, postPic, timestamp, user: { email, photoURL, username } }) => (
+      {posts.map(({ id, caption, postPic, timestamp, email, photoURL, username }) => (
         <Post key={id}
           id={id}
           caption={caption}

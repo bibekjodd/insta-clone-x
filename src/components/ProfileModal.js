@@ -1,15 +1,17 @@
-import Link from 'next/link'
 import { RiAccountCircleLine } from 'react-icons/ri'
 import { BsArrowRepeat } from 'react-icons/bs'
 import { GrClose } from 'react-icons/gr'
 import { signOut, useSession } from 'next-auth/react'
 import { useSelector, useDispatch } from 'react-redux'
 import { changeUserModal, selectUserModal } from '../features/userSlice'
+import { useRouter } from 'next/router'
 
 function ProfileModal() {
     const { data } = useSession();
     const modalState = useSelector(selectUserModal)
     const dispatch = useDispatch();
+
+    const router = useRouter();
 
     return (
         (data && modalState) && (
@@ -19,14 +21,13 @@ function ProfileModal() {
                         className='absolute p-2 top-1 right-1 text-gray-700 hover:text-black'>
                         <GrClose />
                     </button>
-                    <Link href='/profile'>
-                        <a className='flex space-x-2 items-center p-2  hover:bg-stone-50'>
-                            <button className='text-xl text-gray-700'>
-                                <RiAccountCircleLine />
-                            </button>
-                            <p>Profile</p>
-                        </a>
-                    </Link >
+                    <button onClick={() => {dispatch(changeUserModal()); router.push(`/user/${data.user.username}`)}}
+                        className='flex space-x-2 items-center p-2  hover:bg-stone-50 w-full'>
+                        <div className='text-xl text-gray-700'>
+                            <RiAccountCircleLine />
+                        </div>
+                        <p>Profile</p>
+                    </button>
                     <button onClick={signOut}
                         className='flex space-x-2 items-center p-2  hover:bg-stone-50 w-full'>
                         <div className='text-xl text-gray-700'>

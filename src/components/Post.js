@@ -10,6 +10,7 @@ import { useSession } from "next-auth/react"
 import { useEffect, useState } from "react"
 import { db } from "../firebase"
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, query, setDoc, where } from "firebase/firestore"
+import Link from "next/link"
 
 
 
@@ -67,13 +68,17 @@ function Post({ id, photoURL, username, caption, postPic }) {
       {/* top */}
       <div className="p-2 flex justify-between items-center">
         <div className="flex items-center space-x-1.5">
-          <div className="rounded-full  aspect-square w-fit bg-gradient-to-tr from-yellow-300 to-pink-600 p-1 grid place-items-center">
-            <div className="w-7 sm:w-9 aspect-square  rounded-full overflow-hidden relative ring-2 ring-white grid place-items-center">
-              <Image src={photoURL} layout='fill' objectFit='contain'
-                className="grid place-items-center" />
-            </div>
-          </div>
-          <button className="font-semibold text-sm">{username}</button>
+          <Link href={`/user/${username}`}>
+            <a className="rounded-full  aspect-square w-fit bg-gradient-to-tr from-yellow-300 to-pink-600 p-1 grid place-items-center">
+              <div className="w-7 sm:w-9 aspect-square  rounded-full overflow-hidden relative ring-2 ring-white grid place-items-center">
+                <Image src={photoURL} layout='fill' objectFit='contain'
+                  className="grid place-items-center" />
+              </div>
+            </a>
+          </Link>
+          <Link href={`/user/${username}`}>
+            <a className="font-semibold text-sm">{username.slice(1)}</a>
+          </Link>
         </div>
         <button>
           <BiDotsHorizontalRounded className="text-2xl text-gray-700 hover:scale-125 transition hover:text-gray-600" />
@@ -89,7 +94,7 @@ function Post({ id, photoURL, username, caption, postPic }) {
         <button className="hover:scale-125 transition ease-out  mr-4 "
           onClick={likePost}>
           {!hasLiked ? <FiHeart className="hover:text-gray-600 text-gray-700" /> :
-            <FaHeart className="hover:text-pink-600 text-pink-600" />}
+            <FaHeart className="hover:text-rose-600 text-rose-600" />}
         </button>
         <button className="hover:scale-125 transition ease-out hover:text-gray-600 mr-4 ">
           <FaRegComment />
@@ -103,10 +108,12 @@ function Post({ id, photoURL, username, caption, postPic }) {
       </div>}
       <p className="font-semibold text-sm px-3 mt-1">{likeCount} likes</p>
       <h5 className="px-3 pb-2 text-sm">
-        <button className="font-semibold">{username}</button> {caption}
+        <Link href={`/user/${username}`}>
+          <a className="font-semibold">{username.slice(1)}</a></Link> {caption}
       </h5>
 
       <PostComment id={id} />
+
 
 
     </div>

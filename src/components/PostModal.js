@@ -40,11 +40,9 @@ function PostModal() {
                 return;
 
             const uploadedPost = await addDoc(collection(db, 'posts'), {
-                user: {
                     username: data.user.username,
                     email: data.user.email,
                     photoURL: data.user.image,
-                },
                 caption,
                 timestamp: new Date().getTime()
             });
@@ -66,7 +64,7 @@ function PostModal() {
 
 
     return (
-        (postModal && data) && <div className="h-screen w-full grid place-items-center  top-0 left-0 absolute bg-black bg-opacity-50 z-50  " >
+        (postModal && data) && <div className="h-screen w-full grid place-items-center  top-0 left-0 sticky bg-black bg-opacity-50 z-50  " >
 
             <div className="w-80 sm:w-96 bg-white relative rounded-xl h-[500px] min-h-96  flex flex-col pb-10">
                 <h1 className='text-center text-lg relative py-1.5 border-b border-gray-300'>Create new post

@@ -17,14 +17,31 @@ import { useSession, signIn } from 'next-auth/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { changePostModal, changeUserModal, selectPostModal } from '../features/userSlice'
 import ProfileModal from './ProfileModal'
+import { useEffect } from 'react'
+import { db } from '../firebase'
+import { addDoc, collection, doc, setDoc } from 'firebase/firestore'
 
 
 function Header() {
     const router = useRouter();
-    const {
-        data } = useSession();
+    const { data } = useSession();
     const dispatch = useDispatch();
     const postModal = useSelector(selectPostModal);
+
+    useEffect(() => {
+        if (!data)
+            return;
+        const registerUserToServer = async () => {
+            await setDoc(doc(db, 'users', data.user.username), {
+                email: data.user.email,
+                image: data.user.image,
+                name: data.user.name,
+                uid: data.user.uid,
+                username: data.user.username,
+            })
+        }
+        registerUserToServer();
+    }, [data])
 
     return (
         <>

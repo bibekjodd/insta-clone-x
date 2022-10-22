@@ -14,7 +14,10 @@ export default NextAuth({
     },
     callbacks: {
         async session({ session, token, user }) {
-            session.user.username = session.user.name.split(' ').join('').toLocaleLowerCase();
+            // session.user.username = session.user.name.split(' ').join('').toLocaleLowerCase();
+            let email = token.email;
+            email = email.slice(0, email.indexOf('@'));
+            session.user.username = '@' + email;
             session.user.uid = token.sub;
             return session;
         }

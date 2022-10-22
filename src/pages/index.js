@@ -8,7 +8,7 @@ import Suggesions from "../components/Suggesions"
 function index() {
   const { data } = useSession();
   return (
-    <div className="w-full flex  justify-center items-start  space-x-10">
+    <main className="w-full flex  justify-center items-start  space-x-10">
       <Head>
         <title>Instagram</title>
       </Head>
@@ -28,7 +28,7 @@ function index() {
         </section>
       }
 
-    </div>
+    </main>
   )
 }
 
