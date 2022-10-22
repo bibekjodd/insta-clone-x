@@ -33,6 +33,7 @@ input {
 
 body {
   background: rgb(243 244 246);
+  user-select: none;
 }
 
 .hide-scrollbar::-webkit-scrollbar {

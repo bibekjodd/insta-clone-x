@@ -6,7 +6,8 @@ import Header from '../components/Header';
 import { SessionProvider } from 'next-auth/react';
 import ProfileModal from '../components/ProfileModal';
 import { store } from '../app/store'
-import { Provider } from 'react-redux'
+import { Provider, useDispatch } from 'react-redux'
+import PostModal from '../components/PostModal';
 
 function MyApp({ Component, pageProps }) {
   const [progress, setProgress] = useState(0);
@@ -38,6 +39,7 @@ function MyApp({ Component, pageProps }) {
           onLoaderFinished={() => { setProgress(0) }}
         />
         {/* <ProfileModal /> */}
+        <PostModal />
         <Header />
         <Component {...pageProps} />
       </SessionProvider>

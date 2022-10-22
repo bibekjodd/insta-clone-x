@@ -28,7 +28,7 @@ function ProfileModal() {
                         </a>
                     </Link >
                     <button onClick={signOut}
-                        className='flex space-x-2 items-center p-2  hover:bg-stone-50'>
+                        className='flex space-x-2 items-center p-2  hover:bg-stone-50 w-full'>
                         <div className='text-xl text-gray-700'>
                             <BsArrowRepeat />
                         </div>

@@ -14,8 +14,8 @@ import { FaRegHeart } from 'react-icons/fa'
 import { GrInstagram } from 'react-icons/gr'
 import { useRouter } from 'next/router'
 import { useSession, signIn } from 'next-auth/react'
-import { useDispatch } from 'react-redux'
-import { changeUserModal } from '../features/userSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { changePostModal, changeUserModal, selectPostModal } from '../features/userSlice'
 import ProfileModal from './ProfileModal'
 
 
@@ -24,11 +24,11 @@ function Header() {
     const {
         data } = useSession();
     const dispatch = useDispatch();
-    console.log(data)
+    const postModal = useSelector(selectPostModal);
 
     return (
         <>
-            <div className='w-full  bg-white py-2 md:py-2.5 border-b border-b-gray-200 sm:mb-5  sticky z-10 top-0 left-0'>
+            <div className='w-full select-none bg-white py-2 md:py-2.5 border-b border-b-gray-200 sm:mb-5  sticky z-10 top-0 left-0'>
 
                 <header className='lg:max-w-screen-lg mx-auto p-nice flex relative justify-between  top-full right-0'>
 
@@ -60,7 +60,7 @@ function Header() {
 
 
                     {/* right */}
-                    <div className='flex space-x-6 sm:space-x-4 md:space-x-5 items-center text-2xl md:text-[27px] text-gray-800 '>
+                    {data && <div className='flex space-x-6 sm:space-x-4 md:space-x-5 items-center text-2xl md:text-[27px] text-gray-800 '>
                         <Link href='/' className=''>
                             <a className='hidden sm:block'>
                                 {router.pathname === '/' ?
@@ -71,8 +71,9 @@ function Header() {
 
                             </a>
                         </Link>
-                        <button className='hidden xs:block '>
-                            <FiPlusSquare className='text-2xl' />
+                        <button className='hidden xs:block' onClick={() => { dispatch(changePostModal()) }}>
+                            {!postModal ? < FiPlusSquare className='text-2xl ' /> :
+                                <FaPlusSquare className='text-2xl text-gray-700' />}
                         </button>
                         <Link href='/inbox' className=''>
                             <a>
@@ -99,19 +100,21 @@ function Header() {
                         </button>
                         <button
                             className='hidden sm:block text-base font-semibold'>
-                            {!data ? <span onClick={signIn}>Sign In</span> :
-                                <img src={data?.user?.image} loading='lazy' alt="img" onClick={() => { dispatch(changeUserModal()) }}
-                                    className='w-[30px] rounded-full aspect-square object-cover' />
-                            }
+
+                            <img src={data?.user?.image} loading='lazy' alt="img" onClick={() => { dispatch(changeUserModal()) }}
+                                className='w-[30px] rounded-full aspect-square object-cover' />
                         </button>
-                    </div>
+                    </div>}
+                    {!data && <button onClick={signIn} className='font-semibold text-base'>
+                        Sign In
+                    </button>}
                 </header>
             </div>
 
             {/* bottom  */}
 
 
-            <header className='flex sm:hidden justify-around  fixed w-full left-0 bottom-0 items-center text-3xl bg-white z-10 py-2 text-gray-800 '>
+            {data && <header className='flex sm:hidden justify-around  fixed w-full left-0 bottom-0 items-center text-3xl bg-white z-10 py-2 text-gray-800 '>
                 <Link href='/' className=''>
                     <a className=''>
                         {router.pathname === '/' ?
@@ -122,8 +125,10 @@ function Header() {
 
                     </a>
                 </Link>
-                <button className='xs:hidden '>
-                    <FiPlusSquare className='text-2xl' />
+                <button onClick={() => { dispatch(changePostModal()) }}
+                    className='xs:hidden '>
+                    {!postModal ? <FiPlusSquare className='text-2xl' /> :
+                        <FaPlusSquare className='text-2xl text-gray-700' />}
                 </button>
 
 
@@ -139,13 +144,13 @@ function Header() {
                 <button className=''>
                     <FaRegHeart className='text-2xl' />
                 </button>
-                <button className='text-lg font-semibold'>
+                <button className='text-base font-semibold'>
                     {!data ? <span onClick={signIn}>Sign In</span> :
                         <img src={data?.user?.image} loading='lazy' alt="img" onClick={() => { dispatch(changeUserModal()) }}
                             className='w-[30px] rounded-full aspect-square object-cover' />
                     }
                 </button>
-            </header>
+            </header>}
 
         </>
 
